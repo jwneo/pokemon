@@ -3,6 +3,7 @@ package com.jwneo.pokemon.repository;
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.model.Trainer;
 import com.jwneo.pokemon.model.TrainerPokedex;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,8 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
@@ -33,7 +36,7 @@ class TrainerPokedexRepositoryTest {
     @Test
     @Transactional
     @Commit
-    public void save() throws Exception {
+    public void 도감추가() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
                 .logId("aaa")
@@ -42,32 +45,46 @@ class TrainerPokedexRepositoryTest {
                 .build();
         trainerRepository.save(trainer);
 
-        List<Pokedex> pokedexList = new ArrayList<>();
-        List<TrainerPokedex> trainerPokedexList = new ArrayList<>();
-
-        IntStream.rangeClosed(1, 10).forEach(i -> {
-            Pokedex pokedex = Pokedex.builder()
-                    .code(Integer.toString(i))
-                    .name("A" + i)
-                    .build();
-            pokedexList.add(pokedex);
-
-            TrainerPokedex trainerPokedex = TrainerPokedex.builder()
-                    .trainer(trainer)
-                    .pokedex(pokedex)
-                    .build();
-            trainerPokedexList.add(trainerPokedex);
-        });
-
-        pokedexRepository.saveAll(pokedexList);
-        trainerPokedexRepository.saveAll(trainerPokedexList);
-
         //when
-        List<TrainerPokedex> pokedexes = trainer.getTrainerPokedexes();
-        System.out.println("pokedexes.size() = " + pokedexes.size());
+        List<Pokedex> pokedexes = pokedexRepository.findAll();
+        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(5)));
+        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(6)));
+        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(7)));
+
+        em.flush();
 
         //then
+        List<TrainerPokedex> trainerPokedexes = trainer.getTrainerPokedexes();
+        for (TrainerPokedex trainerPokedex : trainerPokedexes) {
+            System.out.println("trainerPokedex = " + trainerPokedex.getPokedex());
+        }
+    }
 
+    @Test
+    @Transactional
+    @Commit
+    public void 도감삭제() throws Exception {
+        //given
+        Trainer trainer = Trainer.builder()
+                .logId("aaa")
+                .logPassword("abcd")
+                .name("지우")
+                .build();
+        trainerRepository.save(trainer);
+
+        List<Pokedex> pokedexes = pokedexRepository.findAll();
+        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(5)));
+        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(6)));
+        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(7)));
+
+        //when
+        trainerPokedexRepository.deleteByTrainer(trainer);
+
+        //then
+        List<TrainerPokedex> trainerPokedexes = trainerPokedexRepository.findByTrainer(trainer);
+
+        System.out.println("trainer = " + trainer.getTrainerPokedexes().size());
+        System.out.println("pokedexes = " + trainerPokedexes.size());
     }
 
 }

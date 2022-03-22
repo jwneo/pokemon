@@ -44,13 +44,15 @@ public class Trainer implements Serializable {
     @OneToMany(mappedBy = "trainer")
     private final List<TrainerPokedex> trainerPokedexes = new ArrayList<>();
 
-    public void changeName(String name) {
-        this.name = name;
-    }
-
     @Builder
     public Trainer(String logId, String logPassword, String name, Address address) {
         this.logId = logId;
+        this.logPassword = logPassword;
+        this.name = name;
+        this.address = address;
+    }
+
+    public void changeTrainer(String logPassword, String name, Address address) {
         this.logPassword = logPassword;
         this.name = name;
         this.address = address;

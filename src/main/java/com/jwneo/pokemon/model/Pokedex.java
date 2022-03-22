@@ -15,6 +15,7 @@ import javax.persistence.*;
         initialValue = 1,
         allocationSize = 159
 )
+@ToString(of = {"code", "name"})
 public class Pokedex {
 
     @Id
@@ -28,4 +29,9 @@ public class Pokedex {
     private String code;
 
     private String name;
+
+    public Pokedex(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 }
