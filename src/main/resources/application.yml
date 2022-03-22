@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/pokemon?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/pokemon?serverTimezone=UTC&characterEncoding=UTF-8&rewriteBatchedStatements=true
     username: jwneo
     password: 1111
 
@@ -13,6 +13,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         format_sql: true
         default_batch_fetch_size: 1000
+        jdbc:
+          batch_size: 50
 
   data:
     web:

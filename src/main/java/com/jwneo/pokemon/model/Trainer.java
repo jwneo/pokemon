@@ -1,16 +1,19 @@
 package com.jwneo.pokemon.model;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@IdClass(TrainerId.class)
+//@IdClass(TrainerId.class)
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @SequenceGenerator(
         name = "trainer_seq_generator",
         sequenceName = "trainer_seq",
@@ -24,12 +27,13 @@ public class Trainer implements Serializable {
             strategy = GenerationType.SEQUENCE
             , generator = "trainer_seq_generator"
     )
+    @Column(name = "trainer_id")
     private Long id;
 
-    @Column(name = "log_id")
+    @Column(name = "log_id", unique = true, nullable = false, updatable = false)
     private String logId;
 
-    @Column(name = "log_password")
+    @Column(name = "log_password", nullable = false)
     private String logPassword;
 
     private String name;
@@ -37,7 +41,18 @@ public class Trainer implements Serializable {
     @Embedded
     private Address address;
 
+    @OneToMany(mappedBy = "trainer")
+    private final List<TrainerPokedex> trainerPokedexes = new ArrayList<>();
+
     public void changeName(String name) {
         this.name = name;
+    }
+
+    @Builder
+    public Trainer(String logId, String logPassword, String name, Address address) {
+        this.logId = logId;
+        this.logPassword = logPassword;
+        this.name = name;
+        this.address = address;
     }
 }
