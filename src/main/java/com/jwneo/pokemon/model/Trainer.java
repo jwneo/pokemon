@@ -20,7 +20,7 @@ import java.util.List;
         initialValue = 1,
         allocationSize = 1
 )
-public class Trainer implements Serializable {
+public class Trainer extends BaseTime {//implements Serializable {
 
     @Id
     @GeneratedValue(
@@ -52,9 +52,15 @@ public class Trainer implements Serializable {
         this.address = address;
     }
 
-    public void changeTrainer(String logPassword, String name, Address address) {
+    public void changePassword(String logPassword) {
         this.logPassword = logPassword;
+    }
+
+    public void changeName(String name) {
         this.name = name;
+    }
+
+    public void changeAddress(Address address) {
         this.address = address;
     }
 }

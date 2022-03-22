@@ -66,7 +66,7 @@ class TrainerPokedexRepositoryTest {
     public void 도감삭제() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .logId("aaa")
+                .logId("abcd")
                 .logPassword("abcd")
                 .name("지우")
                 .build();

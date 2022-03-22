@@ -3,6 +3,7 @@ package com.jwneo.pokemon.config;
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.repository.PokedexRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-@Component
+@Configuration
 @RequiredArgsConstructor
 public class PokedexConfig {
 
