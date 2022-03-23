@@ -5,7 +5,7 @@ import com.jwneo.pokemon.model.Trainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -25,19 +25,19 @@ class TrainerRepositoryTest {
 
     @Test
     @Transactional
-    @Commit
-    public void save() throws Exception {
+    @Rollback(value = false)
+    public void 회원가입() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .logId("aaaa")
-                .logPassword("abcd")
-                .name("몽카생")
+                .id("aaaa")
+                .password("abcd")
+                .name("사천왕")
                 .address(new Address("신현동"))
                 .build();
         trainerRepository.save(trainer);
 
         //when
-        Trainer findTrainer = trainerRepository.findByLogId(trainer.getLogId()).get();
+        Trainer findTrainer = trainerRepository.findById(trainer.getId()).get();
 
         //then
         assertThat(findTrainer.getName()).isEqualTo(trainer.getName());

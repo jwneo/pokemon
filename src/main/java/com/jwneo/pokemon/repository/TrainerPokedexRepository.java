@@ -12,8 +12,9 @@ import java.util.List;
 
 public interface TrainerPokedexRepository extends JpaRepository<TrainerPokedex, Long> {
 
-    @EntityGraph("pokedex")
-    List<TrainerPokedex> findByTrainer(Trainer trainer);
+    @EntityGraph(attributePaths = {"pokedex"})
+    @Query(value = "select tp from TrainerPokedex tp where tp.trainer = :trainer")
+    List<TrainerPokedex> findByTrainer(@Param("trainer") Trainer trainer);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "delete from TrainerPokedex tp where tp.trainer = :trainer")

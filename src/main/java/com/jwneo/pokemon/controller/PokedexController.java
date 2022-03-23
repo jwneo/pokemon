@@ -2,6 +2,7 @@ package com.jwneo.pokemon.controller;
 
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.service.PokedexService;
+import com.jwneo.pokemon.service.TrainerPokedexService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import java.util.List;
 public class PokedexController {
 
     private final PokedexService pokedexService;
+    private final TrainerPokedexService trainerPokedexService;
 
     @GetMapping("/pokedex")
     public List<Pokedex> findAllPokedex() {
@@ -24,4 +26,5 @@ public class PokedexController {
     public List<Pokedex> findPokedex(@PathVariable("code") String code) {
         return pokedexService.findByCode(code);
     }
+
 }

@@ -3,20 +3,15 @@ package com.jwneo.pokemon.repository;
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.model.Trainer;
 import com.jwneo.pokemon.model.TrainerPokedex;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
@@ -35,12 +30,12 @@ class TrainerPokedexRepositoryTest {
 
     @Test
     @Transactional
-    @Commit
-    public void 도감추가() throws Exception {
+    @Rollback(value = false)
+    public void 트레이너도감추가() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .logId("aaa")
-                .logPassword("abcd")
+                .id("aaddda")
+                .password("abcd")
                 .name("지우")
                 .build();
         trainerRepository.save(trainer);
@@ -62,12 +57,12 @@ class TrainerPokedexRepositoryTest {
 
     @Test
     @Transactional
-    @Commit
+    @Rollback(value = false)
     public void 도감삭제() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .logId("abcd")
-                .logPassword("abcd")
+                .id("abcd")
+                .password("abcd")
                 .name("지우")
                 .build();
         trainerRepository.save(trainer);

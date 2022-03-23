@@ -1,17 +1,18 @@
 package com.jwneo.pokemon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@IdClass(TrainerId.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SequenceGenerator(
@@ -20,40 +21,39 @@ import java.util.List;
         initialValue = 1,
         allocationSize = 1
 )
-public class Trainer extends BaseTime {//implements Serializable {
+@EntityListeners(AuditingEntityListener.class)
+public class Trainer extends BaseTime implements Persistable<String> {
 
-    @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE
             , generator = "trainer_seq_generator"
     )
-    @Column(name = "trainer_id")
-    private Long id;
+    private Long no;
 
-    @Column(name = "log_id", unique = true, nullable = false, updatable = false)
-    private String logId;
+    @Id
+    @Column(updatable = false)
+    private String id;
 
-    @Column(name = "log_password", nullable = false)
-    private String logPassword;
+    private String password;
 
     private String name;
 
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "trainer")
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
     private final List<TrainerPokedex> trainerPokedexes = new ArrayList<>();
 
     @Builder
-    public Trainer(String logId, String logPassword, String name, Address address) {
-        this.logId = logId;
-        this.logPassword = logPassword;
+    public Trainer(String id, String password, String name, Address address) {
+        this.id = id;
+        this.password = password;
         this.name = name;
         this.address = address;
     }
 
-    public void changePassword(String logPassword) {
-        this.logPassword = logPassword;
+    public void changePassword(String password) {
+        this.password = password;
     }
 
     public void changeName(String name) {
@@ -62,5 +62,10 @@ public class Trainer extends BaseTime {//implements Serializable {
 
     public void changeAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedDate() == null;
     }
 }

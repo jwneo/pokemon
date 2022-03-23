@@ -4,7 +4,6 @@ import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.repository.PokedexRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -40,9 +39,9 @@ public class PokedexConfig {
         AtomicInteger cnt = new AtomicInteger();
 
         IntStream.rangeClosed(1, pokes.length).forEach(i -> {
-            String name = pokes[i-1];
+            String name = pokes[i - 1];
             if (name.contains("B")) cnt.getAndIncrement();
-            String code = Integer.toString(i-cnt.get());
+            String code = Integer.toString(i - cnt.get());
             pokedexes.add(new Pokedex(code, name));
         });
 

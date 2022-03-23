@@ -14,15 +14,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TrainerPokedexService {
 
     private final TrainerRepository trainerRepository;
     private final TrainerPokedexRepository trainerPokedexRepository;
 
-    public void saveAllTrainerPokedex(String logId, Collection<Pokedex> pokedexes) {
-        Trainer trainer = trainerRepository.findByLogId(logId).get();
+    @Transactional
+    public void saveAll(String trainerId, Collection<Pokedex> pokedexes) {
+        Trainer trainer = trainerRepository.findById(trainerId).get();
 
         trainerPokedexRepository.deleteByTrainer(trainer);
 
@@ -31,5 +32,13 @@ public class TrainerPokedexService {
                 .collect(Collectors.toList());
 
         trainerPokedexRepository.saveAll(trainerPokedexes);
+    }
+
+    public List<Pokedex> findAll(String trainerId) {
+        Trainer trainer = trainerRepository.findById(trainerId).get();
+
+        return trainerPokedexRepository.findByTrainer(trainer).stream()
+                .map(TrainerPokedex::getPokedex)
+                .collect(Collectors.toList());
     }
 }

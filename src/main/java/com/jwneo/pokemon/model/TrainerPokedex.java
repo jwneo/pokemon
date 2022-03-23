@@ -23,12 +23,8 @@ public class TrainerPokedex {
     )
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id")
-//    @JoinColumns({
-//            @JoinColumn(name = "trainer_id"),
-//            @JoinColumn(name = "log_id")
-//    })
     private Trainer trainer;
 
     @ManyToOne(fetch = FetchType.LAZY)
