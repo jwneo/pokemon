@@ -1,17 +1,14 @@
 function init() {
-    $(function(){
-        $('img.poke-img').toggle(
-            function(event){
-            $(event.target).css('opacity', "1.0");
-            },
-            function(event){
-            $(event.target).css('opacity', "0.5");
-            });
+    $("img.poke-img").click(function(event) {
+        if ($(event.target).css("opacity") == 0.2)
+            $(event.target).css("opacity", "1.0")
+        else
+            $(event.target).css("opacity", "0.2")
     });
 }
 
 var scriptElement = document.createElement('script');
-scriptElement.src = 'http://code.jquery.com/jquery-1.7.2.min.js';
+scriptElement.src = 'http://code.jquery.com/jquery-3.4.1.min.js';
 
 scriptElement.onloadDone = false;
 scriptElement.onload = function() {
