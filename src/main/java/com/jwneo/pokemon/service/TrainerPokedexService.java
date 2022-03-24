@@ -34,11 +34,9 @@ public class TrainerPokedexService {
         trainerPokedexRepository.saveAll(trainerPokedexes);
     }
 
-    public List<Pokedex> findAll(String trainerId) {
+    public List<TrainerPokedex> findAll(String trainerId) {
         Trainer trainer = trainerRepository.findById(trainerId).get();
 
-        return trainerPokedexRepository.findByTrainer(trainer).stream()
-                .map(TrainerPokedex::getPokedex)
-                .collect(Collectors.toList());
+        return trainerPokedexRepository.findByTrainer(trainer);
     }
 }

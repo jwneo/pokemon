@@ -28,6 +28,7 @@ public class Pokedex {
 
     private String code;
 
+    @Column(unique = true)
     private String name;
 
     public Pokedex(String code, String name) {

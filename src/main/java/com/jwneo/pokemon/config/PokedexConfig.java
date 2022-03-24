@@ -45,6 +45,10 @@ public class PokedexConfig {
             pokedexes.add(new Pokedex(code, name));
         });
 
-        pokedexRepository.saveAll(pokedexes);
+        try {
+            pokedexRepository.saveAll(pokedexes);
+        } catch(Exception ex) {
+
+        }
     }
 }
