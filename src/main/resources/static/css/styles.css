@@ -1,0 +1,9 @@
+.poke-img {
+    height: 130px;
+    width: 100px;
+    opacity: 0.5;
+}
+
+.exists {
+    opacity: 1.0;
+}

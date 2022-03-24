@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>JWNEO</title>
+    <meta charset="UTF-8">
+    <script src="js/scripts.js"></script>
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div th:each="tp:${tpList}">
+        <img th:src="|/pokedex/image/${tp.code}_${tp.name}.png|" class="poke-img exists">
+    </div>
+</body>
+</html>
