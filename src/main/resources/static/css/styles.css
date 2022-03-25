@@ -4,6 +4,11 @@
     opacity: 0.2;
 }
 
-.exists {
+.collect {
     opacity: 1.0;
+}
+
+.count {
+    color: #8c8f94;
+    text-align: right;
 }

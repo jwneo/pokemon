@@ -1,9 +1,17 @@
 function init() {
     $("img.poke-img").click(function(event) {
-        if ($(event.target).css("opacity") == 0.2)
-            $(event.target).css("opacity", "1.0")
+        var className = "collect";
+
+        if (!$(event.target).hasClass(className))
+            $(event.target).addClass(className);
         else
-            $(event.target).css("opacity", "0.2")
+            $(event.target).removeClass(className);
+
+        var pokedex = document.querySelectorAll("img.poke-img");
+        var pokeList = document.querySelectorAll("img.poke-img." + className);
+
+        $(".count").text(pokeList.length + " / " + pokedex.length);
+        $(".d-none").text(Array.from(pokeList).map(o => o.title).join('/'));
     });
 }
 

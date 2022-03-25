@@ -29,6 +29,16 @@ public class TrainerService {
         }
     }
 
+    @Transactional
+    public void updatePokeList(String trainerId, String pokeList) {
+        Optional<Trainer> findTrainer = trainerRepository.findByLogId(trainerId);
+
+        if (!findTrainer.isEmpty()) {
+            findTrainer.get().updatePokeList(pokeList);
+        }
+    }
+
+
     public Optional<Trainer> findOne(String trainerId) {
         return trainerRepository.findByLogId(trainerId);
     }
