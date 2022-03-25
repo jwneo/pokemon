@@ -1,6 +1,5 @@
 package com.jwneo.pokemon.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,8 +8,6 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -21,39 +18,37 @@ import java.util.List;
         initialValue = 1,
         allocationSize = 1
 )
-@EntityListeners(AuditingEntityListener.class)
-public class Trainer extends BaseTime implements Persistable<String> {
+public class Trainer extends BaseTime {
 
+    @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE
             , generator = "trainer_seq_generator"
     )
-    private Long no;
+    private Long id;
 
-    @Id
-    @Column(updatable = false)
-    private String id;
+    @Column(unique = true, updatable = false)
+    private String logId;
 
-    private String password;
+    private String logPassword;
 
     private String name;
 
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
-    private final List<TrainerPokedex> trainerPokedexes = new ArrayList<>();
+    private String pokeList = "";
 
     @Builder
-    public Trainer(String id, String password, String name, Address address) {
-        this.id = id;
-        this.password = password;
+    public Trainer(String logId, String logPassword, String name, Address address) {
+        this.logId = logId;
+        this.logPassword = logPassword;
         this.name = name;
         this.address = address;
     }
 
-    public void changePassword(String password) {
-        this.password = password;
+    public void changePassword(String logPassword) {
+        this.logPassword = logPassword;
     }
 
     public void changeName(String name) {
@@ -64,8 +59,7 @@ public class Trainer extends BaseTime implements Persistable<String> {
         this.address = address;
     }
 
-    @Override
-    public boolean isNew() {
-        return getCreatedDate() == null;
+    public void updatePokeList(String pokeList) {
+        this.pokeList = pokeList;
     }
 }

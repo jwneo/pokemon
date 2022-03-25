@@ -1,6 +1,7 @@
 package com.jwneo.pokemon.service;
 
 import com.jwneo.pokemon.model.Pokedex;
+import com.jwneo.pokemon.model.Trainer;
 import com.jwneo.pokemon.repository.PokedexRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class PokedexService {
 
     public List<Pokedex> findByCode(String code) {
         return pokedexRepository.findByCode(code);
+    }
+
+    public List<Pokedex> findByTrainer(Trainer trainer) {
+        return pokedexRepository.findByPokeList(trainer.getPokeList());
     }
 
     public List<Pokedex> findAll() {

@@ -29,8 +29,8 @@ class TrainerRepositoryTest {
     public void 회원가입() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .id("aaaa")
-                .password("abcd")
+                .logId("aaaa")
+                .logPassword("abcd")
                 .name("사천왕")
                 .address(new Address("신현동"))
                 .build();

@@ -2,7 +2,6 @@ package com.jwneo.pokemon.controller;
 
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.service.PokedexService;
-import com.jwneo.pokemon.service.TrainerPokedexService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +20,6 @@ import java.util.List;
 public class PokedexController {
 
     private final PokedexService pokedexService;
-    private final TrainerPokedexService trainerPokedexService;
 
     @GetMapping("/pokedex")
     public List<Pokedex> findAllPokedex() {

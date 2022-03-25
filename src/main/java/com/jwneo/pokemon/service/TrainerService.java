@@ -22,7 +22,7 @@ public class TrainerService {
 
     @Transactional
     public void updateTrainer(String trainerId, String password, String name, String region) {
-        Optional<Trainer> findTrainer = trainerRepository.findById(trainerId);
+        Optional<Trainer> findTrainer = trainerRepository.findByLogId(trainerId);
 
         if (!findTrainer.isEmpty()) {
             //tbd
@@ -30,6 +30,6 @@ public class TrainerService {
     }
 
     public Optional<Trainer> findOne(String trainerId) {
-        return trainerRepository.findById(trainerId);
+        return trainerRepository.findByLogId(trainerId);
     }
 }

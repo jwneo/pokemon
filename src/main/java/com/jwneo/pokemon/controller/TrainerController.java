@@ -1,9 +1,8 @@
 package com.jwneo.pokemon.controller;
 
+import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.model.Trainer;
-import com.jwneo.pokemon.model.TrainerPokedex;
 import com.jwneo.pokemon.service.PokedexService;
-import com.jwneo.pokemon.service.TrainerPokedexService;
 import com.jwneo.pokemon.service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,23 +19,25 @@ public class TrainerController {
 
     private final TrainerService trainerService;
     private final PokedexService pokedexService;
-    private final TrainerPokedexService trainerPokedexService;
 
     @GetMapping("/trainer/{id}/pokedex")
-    public String listPokedex(@PathVariable("id") String trainerId, Model model) {
-        List<TrainerPokedex> list = trainerPokedexService.findAll(trainerId);
-        model.addAttribute("tpList", list);
+    public String trainerPokedex(@PathVariable("id") String trainerId, Model model) {
+        Trainer trainer = trainerService.findOne(trainerId).get();
+        List<Pokedex> pokedexList = pokedexService.findAll();
 
-        return "trainers/trainerPokedexes";
+        model.addAttribute("pokeList", trainer.getPokeList());
+        model.addAttribute("pokedexList", pokedexList);
+        return "trainers/trainerPokedexList";
     }
 
     @PostConstruct
     public void init() {
         Trainer trainer = Trainer.builder()
-                .id("aaa")
-                .password("abcd")
+                .logId("aaa")
+                .logPassword("abcd")
                 .name("지우")
                 .build();
+        trainer.updatePokeList("이상해씨A/파이리B/꼬부기B");
         try{
             trainerService.saveTrainer(trainer);
         } catch (Exception ex) {

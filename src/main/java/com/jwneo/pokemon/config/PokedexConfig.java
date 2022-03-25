@@ -47,7 +47,7 @@ public class PokedexConfig {
 
         try {
             pokedexRepository.saveAll(pokedexes);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
 
         }
     }

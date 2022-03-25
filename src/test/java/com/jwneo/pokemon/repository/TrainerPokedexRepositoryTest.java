@@ -2,7 +2,6 @@ package com.jwneo.pokemon.repository;
 
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.model.Trainer;
-import com.jwneo.pokemon.model.TrainerPokedex;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,33 +24,27 @@ class TrainerPokedexRepositoryTest {
     private TrainerRepository trainerRepository;
     @Autowired
     private PokedexRepository pokedexRepository;
-    @Autowired
-    private TrainerPokedexRepository trainerPokedexRepository;
 
     @Test
     @Transactional
     @Rollback(value = false)
-    public void 트레이너도감추가() throws Exception {
+    public void 도감추가() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .id("aaddda")
-                .password("abcd")
+                .logId("aaddda")
+                .logPassword("abcd")
                 .name("지우")
                 .build();
         trainerRepository.save(trainer);
 
         //when
-        List<Pokedex> pokedexes = pokedexRepository.findAll();
-        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(5)));
-        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(6)));
-        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(7)));
-
+        trainer.updatePokeList("이상해씨A/파이리B/꼬부기A");
         em.flush();
 
         //then
-        List<TrainerPokedex> trainerPokedexes = trainer.getTrainerPokedexes();
-        for (TrainerPokedex trainerPokedex : trainerPokedexes) {
-            System.out.println("trainerPokedex = " + trainerPokedex.getPokedex());
+        List<Pokedex> trainerPokedexeList = pokedexRepository.findByPokeList(trainer.getPokeList());
+        for (Pokedex pokedex : trainerPokedexeList) {
+            System.out.println("pokedex = " + pokedex);
         }
     }
 
@@ -61,25 +54,25 @@ class TrainerPokedexRepositoryTest {
     public void 도감삭제() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .id("abcd")
-                .password("abcd")
+                .logId("abcd")
+                .logPassword("abcd")
                 .name("지우")
                 .build();
         trainerRepository.save(trainer);
 
-        List<Pokedex> pokedexes = pokedexRepository.findAll();
-        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(5)));
-        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(6)));
-        trainerPokedexRepository.save(new TrainerPokedex(trainer, pokedexes.get(7)));
+        trainer.updatePokeList("이상해씨A/파이리A/꼬부기B");
+
+        em.flush();
 
         //when
-        trainerPokedexRepository.deleteByTrainer(trainer);
+        trainer.updatePokeList("");
+        Trainer findTrainer = trainerRepository.findById(trainer.getId()).get();
+
+        em.flush();
+        em.clear();
 
         //then
-        List<TrainerPokedex> trainerPokedexes = trainerPokedexRepository.findByTrainer(trainer);
-
-        System.out.println("trainer = " + trainer.getTrainerPokedexes().size());
-        System.out.println("pokedexes = " + trainerPokedexes.size());
+        System.out.println("findTrainer = " + findTrainer.getPokeList());
     }
 
 }
