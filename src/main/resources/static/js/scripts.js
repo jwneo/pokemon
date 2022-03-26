@@ -11,7 +11,7 @@ function init() {
         var pokeList = document.querySelectorAll("img.poke-img." + className);
 
         $(".count").text(pokeList.length + " / " + pokedex.length);
-        $(".d-none").text(Array.from(pokeList).map(o => o.title).join('/'));
+        $(".d-none").text("/" + Array.from(pokeList).map(o => o.title).join('/') + "/");
     });
 }
 

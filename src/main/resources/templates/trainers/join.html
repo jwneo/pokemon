@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>회원가입</title>
+</head>
+<body layout:fragment="content">
+    <div class="container">
+        <div class="row mt-4 justify-content-between">
+            <div class="col-12">
+                <h1 class="d-inline">회원가입</h1>
+            </div>
+        </div>
+        <div class="row mt-3 justify-content-start">
+            <form role="form" action="#" th:object="${trainerDto}" method="post">
+                <div class="form-group">
+                    <label>아이디</label>
+                    <input th:field="*{logId}"
+                           th:class="'form-control' + (${#fields.hasErrors('logId')}? ' is-invalid' : '')"
+                           type="text" class="form-control" placeholder="아이디를 입력하세요">
+                    <div th:errors="*{logId}" th:text ="*{logId}" class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label>패스워드</label>
+                    <input th:field="*{logPassword}"
+                           th:class="'form-control' + (${#fields.hasErrors('logPassword')}? ' is-invalid' : '')"
+                           type="password" class="form-control" placeholder="패스워드를 입력하세요">
+                    <div th:errors="*{logPassword}" th:text ="*{logPassword}" class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label>이름</label>
+                    <input th:field="*{name}"
+                           th:class="'form-control' + (${#fields.hasErrors('name')}? ' is-invalid' : '')"
+                           type="text" class="form-control" placeholder="이름을 입력하세요">
+                    <div th:errors="*{name}" th:text ="*{name}" class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label th:for="city">지역</label>
+                    <input type="text" th:field="*{region}" class="form-control" placeholder="지역을 입력하세요">
+                </div>
+                <button type="submit" class="btn btn-primary">가입</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

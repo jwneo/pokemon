@@ -33,7 +33,7 @@
             <div class="mt-4">
                 <th:block th:each="pokedex : ${pokedexList}">
                     <img th:src="|/pokedex/image/${pokedex.code}_${pokedex.name}.png|"
-                         th:class="${#strings.contains(pokeList, pokedex.name)} ? 'poke-img collect' : 'poke-img'"
+                         th:class="${#strings.contains(pokeList, '/'+pokedex.name+'/')} ? 'poke-img collect' : 'poke-img'"
                          th:title=${pokedex.name}>
                 </th:block>
             </div>
