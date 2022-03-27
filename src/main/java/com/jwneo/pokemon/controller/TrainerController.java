@@ -24,7 +24,7 @@ public class TrainerController {
     private final PokedexService pokedexService;
 
     @GetMapping("/trainers/join")
-    public String createDto(Model model) {
+    public String trainerDto(Model model) {
         model.addAttribute("trainerDto", new TrainerDto());
         return "trainers/join";
     }
@@ -33,7 +33,7 @@ public class TrainerController {
     public String join(@Valid TrainerDto trainerDto,
                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "redirect::trainers/join";
+            return "trainers/join";
         }
 
         Trainer trainer = Trainer.builder()
