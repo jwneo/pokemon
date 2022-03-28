@@ -1,6 +1,6 @@
 package com.jwneo.pokemon.service;
 
-import com.jwneo.pokemon.dto.TrainerDto;
+import com.jwneo.pokemon.dto.TrainerForm;
 import com.jwneo.pokemon.model.Trainer;
 import com.jwneo.pokemon.repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,18 +14,17 @@ public class LoginService {
 
     private final TrainerRepository trainerRepository;
 
-    public TrainerDto login(String logId, String logPassword) {
+    public TrainerForm login(String logId, String logPassword) {
 
         try {
-            Trainer trainer = trainerRepository.findByLogId(logId).get();
+            Trainer trainer = trainerRepository.findByLoginId(logId).get();
 
-            if (trainer.getLogPassword().equals(logPassword)) {
-                TrainerDto trainerDto = new TrainerDto();
-                trainerDto.setLogId(trainer.getLogId());
-                trainerDto.setLogPassword(trainer.getLogPassword());
-                trainerDto.setRegion(trainer.getAddress().getRegion());
+            if (trainer.getPassword().equals(logPassword)) {
+                TrainerForm trainerForm = new TrainerForm();
+                trainerForm.setLoginId(trainer.getLoginId());
+                trainerForm.setRegion(trainer.getAddress().getRegion());
 
-                return trainerDto;
+                return trainerForm;
             }
 
         } catch (Exception ex) {

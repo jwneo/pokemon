@@ -1,6 +1,7 @@
 package com.jwneo.pokemon.controller;
 
-import com.jwneo.pokemon.dto.TrainerDto;
+import com.jwneo.pokemon.dto.LoginForm;
+import com.jwneo.pokemon.dto.TrainerForm;
 import com.jwneo.pokemon.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,20 +19,20 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public String loginDto(Model model) {
-        model.addAttribute("trainerDto", new TrainerDto());
-        return "trainers/login";
+    public String loginForm(Model model) {
+        model.addAttribute("loginForm", new LoginForm());
+        return "login";
     }
 
     @PostMapping("/login")
-    public String login(@Valid TrainerDto trainerDto,
+    public String login(@Valid LoginForm loginForm,
                         BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "/trainers/login";
+            return "login";
         }
 
-        TrainerDto login = loginService.login(trainerDto.getLogId(), trainerDto.getLogPassword());
+        TrainerForm login = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
 
         return "redirect:/";
     }

@@ -16,13 +16,13 @@ public class TrainerService {
     private final TrainerRepository trainerRepository;
 
     @Transactional
-    public void saveTrainer(Trainer trainer) {
+    public void createTrainer(Trainer trainer) {
         trainerRepository.save(trainer);
     }
 
     @Transactional
     public void updateTrainer(String trainerId, String password, String name, String region) {
-        Optional<Trainer> findTrainer = trainerRepository.findByLogId(trainerId);
+        Optional<Trainer> findTrainer = trainerRepository.findByLoginId(trainerId);
 
         if (!findTrainer.isEmpty()) {
             //tbd
@@ -31,7 +31,7 @@ public class TrainerService {
 
     @Transactional
     public void updatePokeList(String trainerId, String pokeList) {
-        Optional<Trainer> findTrainer = trainerRepository.findByLogId(trainerId);
+        Optional<Trainer> findTrainer = trainerRepository.findByLoginId(trainerId);
 
         if (!findTrainer.isEmpty()) {
             findTrainer.get().updatePokeList(pokeList);
@@ -40,6 +40,6 @@ public class TrainerService {
 
 
     public Optional<Trainer> findOne(String trainerId) {
-        return trainerRepository.findByLogId(trainerId);
+        return trainerRepository.findByLoginId(trainerId);
     }
 }

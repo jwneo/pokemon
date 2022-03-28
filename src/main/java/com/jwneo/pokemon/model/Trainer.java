@@ -4,8 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Persistable;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -28,9 +26,9 @@ public class Trainer extends BaseTime {
     private Long id;
 
     @Column(unique = true, updatable = false)
-    private String logId;
+    private String loginId;
 
-    private String logPassword;
+    private String password;
 
     private String name;
 
@@ -40,15 +38,15 @@ public class Trainer extends BaseTime {
     private String pokeList = "";
 
     @Builder
-    public Trainer(String logId, String logPassword, String name, Address address) {
-        this.logId = logId;
-        this.logPassword = logPassword;
+    public Trainer(String loginId, String password, String name, Address address) {
+        this.loginId = loginId;
+        this.password = password;
         this.name = name;
         this.address = address;
     }
 
     public void changePassword(String logPassword) {
-        this.logPassword = logPassword;
+        this.password = password;
     }
 
     public void changeName(String name) {

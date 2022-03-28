@@ -1,6 +1,6 @@
 package com.jwneo.pokemon.controller;
 
-import com.jwneo.pokemon.dto.TrainerDto;
+import com.jwneo.pokemon.dto.TrainerForm;
 import com.jwneo.pokemon.model.Address;
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.model.Trainer;
@@ -23,33 +23,33 @@ public class TrainerController {
     private final TrainerService trainerService;
     private final PokedexService pokedexService;
 
-    @GetMapping("/trainers/join")
-    public String trainerDto(Model model) {
-        model.addAttribute("trainerDto", new TrainerDto());
+    @GetMapping("/trainer/join")
+    public String trainerForm(Model model) {
+        model.addAttribute("trainerForm", new TrainerForm());
         return "trainers/join";
     }
 
-    @PostMapping("/trainers/join")
-    public String join(@Valid TrainerDto trainerDto,
+    @PostMapping("/trainer/join")
+    public String joinTrainer(@Valid TrainerForm trainerForm,
                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "trainers/join";
         }
 
         Trainer trainer = Trainer.builder()
-                .logId(trainerDto.getLogId())
-                .logPassword(trainerDto.getLogPassword())
-                .name(trainerDto.getName())
-                .address(new Address(trainerDto.getRegion()))
+                .loginId(trainerForm.getLoginId())
+                .password(trainerForm.getPassword())
+                .name(trainerForm.getName())
+                .address(new Address(trainerForm.getRegion()))
                 .build();
 
-        trainerService.saveTrainer(trainer);
+        trainerService.createTrainer(trainer);
 
         return "home";
     }
 
     @GetMapping("/trainer/{id}/pokedex")
-    public String getPokedex(@PathVariable("id") String trainerId, Model model) {
+    public String createTrainerPokedex(@PathVariable("id") String trainerId, Model model) {
         Trainer trainer = trainerService.findOne(trainerId).get();
         List<Pokedex> pokedexList = pokedexService.findAll();
 
@@ -64,7 +64,7 @@ public class TrainerController {
 
     @ResponseBody
     @PostMapping("/trainer/{id}/pokedex")
-    public String updatePokedex(@PathVariable("id") String trainerId,
+    public String updateTrainerPokedex(@PathVariable("id") String trainerId,
                                 @RequestParam(value = "pokeList") String pokeList) {
         trainerService.updatePokeList(trainerId, pokeList);
         return "";
