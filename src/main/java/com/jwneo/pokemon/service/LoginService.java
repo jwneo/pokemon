@@ -22,6 +22,7 @@ public class LoginService {
             if (trainer.getPassword().equals(logPassword)) {
                 TrainerForm trainerForm = new TrainerForm();
                 trainerForm.setLoginId(trainer.getLoginId());
+                trainerForm.setName(trainer.getName());
                 trainerForm.setRegion(trainer.getAddress().getRegion());
 
                 return trainerForm;

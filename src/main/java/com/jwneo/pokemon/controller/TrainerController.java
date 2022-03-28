@@ -49,13 +49,17 @@ public class TrainerController {
     }
 
     @GetMapping("/trainer/{id}/pokedex")
-    public String createTrainerPokedex(@PathVariable("id") String trainerId, Model model) {
+    public String createTrainerPokedex(
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) TrainerForm trainerForm,
+            @PathVariable("id") String trainerId
+            , Model model) {
         Trainer trainer = trainerService.findOne(trainerId).get();
         List<Pokedex> pokedexList = pokedexService.findAll();
 
         String pokeList = trainer.getPokeList();
         int pokeCnt = Arrays.stream(pokeList.split("/")).filter(p -> !p.isEmpty()).toArray().length;
 
+        model.addAttribute("trainer", trainer);
         model.addAttribute("pokeCnt", pokeCnt);
         model.addAttribute("pokeList", pokeList);
         model.addAttribute("pokedexList", pokedexList);
@@ -64,8 +68,9 @@ public class TrainerController {
 
     @ResponseBody
     @PostMapping("/trainer/{id}/pokedex")
-    public String updateTrainerPokedex(@PathVariable("id") String trainerId,
-                                @RequestParam(value = "pokeList") String pokeList) {
+    public String updateTrainerPokedex(
+            @PathVariable("id") String trainerId,
+            @RequestParam(value = "pokeList") String pokeList) {
         trainerService.updatePokeList(trainerId, pokeList);
         return "";
     }

@@ -13,16 +13,21 @@
         </div>
     </div>
     <div class="row mt-3 justify-content-start">
-        <form role="form" action="#" th:object="${loginForm}" method="post">
+        <form role="form" action="/login" th:object="${loginForm}" method="post">
             <div class="form-group">
                 <input th:field="*{loginId}"
                        th:class="'form-control' + (${#fields.hasErrors('loginId')}? ' is-invalid' : '')"
                        type="text" class="form-control" placeholder="아이디">
+                <div th:errors="*{loginId}" th:text ="*{loginId}" class="invalid-feedback"></div>
             </div>
             <div class="form-group">
                 <input th:field="*{password}"
                        th:class="'form-control' + (${#fields.hasErrors('password')}? ' is-invalid' : '')"
                        type="password" class="form-control" placeholder="패스워드">
+                <div th:errors="*{password}" th:text ="*{password}" class="invalid-feedback"></div>
+            </div>
+            <div class="form-group" th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
             </div>
             <button type="submit" class="btn btn-primary">로그인</button>
         </form>
