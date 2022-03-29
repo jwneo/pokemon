@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Configuration
@@ -19,6 +20,9 @@ public class PokedexConfig {
 
     @PostConstruct
     private void init() {
+
+        List<String> pokedexList = pokedexRepository.findAll().stream().map(Pokedex::getName).collect(Collectors.toList());
+
         String[] pokes = {"이상해씨A", "이상해씨B", "이상해풀", "이상해꽃", "파이리A", "파이리B", "리자드", "리자몽",
                 "꼬부기A", "꼬부기B", "어니부기", "거북왕", "캐터피", "단데기", "버터플", "뿔충이", "딱충이", "독침붕",
                 "구구", "피죤", "피죤투", "꼬렛", "레트라", "깨비참", "깨비드릴조", "아보", "아보크", "피카츄A", "피카츄B",
@@ -40,10 +44,12 @@ public class PokedexConfig {
 
         IntStream.rangeClosed(1, pokes.length).forEach(i -> {
             String name = pokes[i - 1];
-            if (name.contains("B")) cnt.getAndIncrement();
+            if (name.contains("B"))
+                cnt.getAndIncrement();
             String code = Integer.toString(i - cnt.get());
-            pokedexes.add(new Pokedex(code, name));
-        });
+            if (!pokedexList.contains(name))
+                pokedexes.add(new Pokedex(code, name));
+            });
 
         try {
             pokedexRepository.saveAll(pokedexes);
