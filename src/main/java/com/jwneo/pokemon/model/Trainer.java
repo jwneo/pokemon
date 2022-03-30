@@ -45,7 +45,7 @@ public class Trainer extends BaseTime {
         this.address = address;
     }
 
-    public void changePassword(String logPassword) {
+    public void changePassword(String password) {
         this.password = password;
     }
 

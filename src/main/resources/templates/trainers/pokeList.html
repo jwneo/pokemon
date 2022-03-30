@@ -19,20 +19,18 @@
         <div class="container">
             <div th:text="${pokeList}" class="d-none"></div>
             <div class="row mt-4 justify-content-between">
-                <div class="col-12">
-                    <h1 class="d-inline">도감</h1>
+                <div class="col-8">
+                    <h2 class="d-inline"><a onClick="window.location.reload()" style="cursor: pointer;">도감</a></h2>
                     <h3 class="d-inline ml-1 count" th:text="|${pokeCnt} / ${#lists.size(pokedexList)}|"></h3>
                 </div>
-            </div>
-            <div class="row mt-3 justify-content-start">
                 <div class="col-4">
-                    <button type="button" class="btn btn-success" onclick="dataSend()">저장</button>
+                    <button type="button" class="btn btn-success float-right" onclick="dataSend()">저장</button>
                 </div>
             </div>
-            <div class="mt-4">
+            <div class="row mt-4 ml-1 mr-1">
                 <th:block th:each="pokedex : ${pokedexList}">
                     <img th:src="|/pokedex/image/${pokedex.code}_${pokedex.name}.png|"
-                         th:class="${#strings.contains(pokeList, '/'+pokedex.name+'/')} ? 'poke-img collect' : 'poke-img'"
+                         th:class="${#strings.contains(trainerDto.pokeList, '/'+pokedex.name+'/')} ? 'poke-img collect' : 'poke-img'"
                          th:title=${pokedex.name}>
                 </th:block>
             </div>

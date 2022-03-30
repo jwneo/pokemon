@@ -1,26 +1,30 @@
 package com.jwneo.pokemon.controller;
 
 import com.jwneo.pokemon.dto.LoginForm;
-import com.jwneo.pokemon.dto.TrainerForm;
+import com.jwneo.pokemon.dto.TrainerDto;
+import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.service.LoginService;
+import com.jwneo.pokemon.service.PokedexService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
 
     private final LoginService loginService;
+    private final PokedexService pokedexService;
 
     @GetMapping("/login")
     public String loginForm(Model model) {
@@ -34,20 +38,31 @@ public class LoginController {
                         HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+            for (ObjectError allError : allErrors) {
+                System.out.println("allError = " + allError.toString());
+
+            }
             return "login";
         }
 
-        TrainerForm login = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
+        TrainerDto login = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
 
-        log.info("login? {}", login);
-        if (login == null) {
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+        if (login.getLoginId() == null) {
+            bindingResult.rejectValue("loginId", "NotFoundLoginId", "존재하지 않는 아이디입니다.");
             return "login";
         }
+
+        if (login.getName() == null) {
+            bindingResult.rejectValue("password", "WrongPassword", "비밀번호가 맞지 않습니다.");
+            return "login";
+        }
+
+        List<Pokedex> pokedexList = pokedexService.findAll();
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, login);
-
+        session.setAttribute(SessionConst.POKEDEX, pokedexList);
         return "redirect:/";
     }
 }

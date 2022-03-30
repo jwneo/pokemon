@@ -1,6 +1,6 @@
 package com.jwneo.pokemon.controller;
 
-import com.jwneo.pokemon.dto.TrainerForm;
+import com.jwneo.pokemon.dto.TrainerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +13,10 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(
-            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) TrainerForm trainerForm,
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) TrainerDto trainerDto,
             Model model) {
-        model.addAttribute("trainer", trainerForm);
+
+        model.addAttribute("trainerDto", trainerDto);
         return "home";
     }
 }

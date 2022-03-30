@@ -1,5 +1,7 @@
 package com.jwneo.pokemon.service;
 
+import com.jwneo.pokemon.dto.TrainerForm;
+import com.jwneo.pokemon.model.Address;
 import com.jwneo.pokemon.model.Trainer;
 import com.jwneo.pokemon.repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +23,14 @@ public class TrainerService {
     }
 
     @Transactional
-    public void updateTrainer(String trainerId, String password, String name, String region) {
+    public void updateTrainer(String trainerId, TrainerForm trainerForm) {
         Optional<Trainer> findTrainer = trainerRepository.findByLoginId(trainerId);
 
         if (!findTrainer.isEmpty()) {
-            //tbd
+            Trainer trainer = findTrainer.get();
+            trainer.changePassword(trainerForm.getPassword());
+            trainer.changeName(trainerForm.getName());
+            trainer.changeAddress(new Address(trainerForm.getRegion()));
         }
     }
 
@@ -37,7 +42,6 @@ public class TrainerService {
             findTrainer.get().updatePokeList(pokeList);
         }
     }
-
 
     public Optional<Trainer> findOne(String trainerId) {
         return trainerRepository.findByLoginId(trainerId);
