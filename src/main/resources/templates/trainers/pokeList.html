@@ -13,18 +13,33 @@
                     type: "POST",
                 })
             }
+
+            function resetList() {
+                var className = "collect";
+
+                var pokedex = document.querySelectorAll("img.poke-img");
+                var pokeList = document.querySelectorAll("img.poke-img." + className);
+
+                $("img.poke-img." + className).each (function (index) {
+                    $(this).removeClass(className);
+                });
+
+                $(".count").text("0 / " + pokedex.length);
+                $(".d-none").text("");
+            }
         </script>
     </head>
     <body layout:fragment="content">
         <div class="container">
             <div th:text="${pokeList}" class="d-none"></div>
             <div class="row mt-4 justify-content-between">
-                <div class="col-8">
+                <div class="col-7">
                     <h2 class="d-inline"><a onClick="window.location.reload()" style="cursor: pointer;">도감</a></h2>
                     <h3 class="d-inline ml-1 count" th:text="|${pokeCnt} / ${#lists.size(pokedexList)}|"></h3>
                 </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-success float-right" onclick="dataSend()">저장</button>
+                <div class="col-5">
+                    <button type="button" class="btn btn-primary float-right ml-2" onclick="dataSend()">저장</button>
+                    <button type="button" class="btn btn-secondary float-right" onclick="resetList()">초기화</button>
                 </div>
             </div>
             <div class="row mt-4 ml-1 mr-1">

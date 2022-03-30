@@ -1,5 +1,4 @@
 function init() {
-//    $("img.poke-img").click(function(event) {
     $(document).on("click tap", "img.poke-img", function(event) {
         var className = "collect";
 
