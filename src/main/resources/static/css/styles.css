@@ -1,7 +1,13 @@
 .poke-img {
-    height: 130px;
-    width: 95px;
+    width: 9%;
+    height: 10%;
     opacity: 0.2;
+}
+
+@media all and (max-width:767px){
+    .poke-img {
+        width: 19%;
+    }
 }
 
 .collect {
