@@ -8,10 +8,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@EntityListeners(AuditingEntityListener.class)
-@MappedSuperclass
 @Getter
-public class BaseTime {
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseTime {
 
     @CreatedDate
     @Column(updatable = false)
@@ -19,16 +19,4 @@ public class BaseTime {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
-
-    @PrePersist
-    public void prePersist() {
-        LocalDateTime now = LocalDateTime.now();
-        createdDate = now;
-        lastModifiedDate = now;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        lastModifiedDate = LocalDateTime.now();
-    }
 }

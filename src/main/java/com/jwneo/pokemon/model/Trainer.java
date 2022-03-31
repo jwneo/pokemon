@@ -20,8 +20,8 @@ public class Trainer extends BaseTime {
 
     @Id
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE
-            , generator = "trainer_seq_generator"
+            strategy = GenerationType.SEQUENCE,
+            generator = "trainer_seq_generator"
     )
     private Long id;
 
