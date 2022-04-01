@@ -38,11 +38,6 @@ public class LoginController {
                         HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
-            List<ObjectError> allErrors = bindingResult.getAllErrors();
-            for (ObjectError allError : allErrors) {
-                System.out.println("allError = " + allError.toString());
-
-            }
             return "login";
         }
 

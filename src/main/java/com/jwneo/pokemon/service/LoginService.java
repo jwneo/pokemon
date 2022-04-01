@@ -27,6 +27,7 @@ public class LoginService {
             trainerDto.setLoginId(trainer.getLoginId());
 
             if (trainer.getPassword().equals(logPassword)) {
+                trainerDto.setId(trainer.getId());
                 trainerDto.setName(trainer.getName());
                 trainerDto.setRegion(trainer.getAddress().getRegion());
                 trainerDto.setPokeList(trainer.getPokeList());

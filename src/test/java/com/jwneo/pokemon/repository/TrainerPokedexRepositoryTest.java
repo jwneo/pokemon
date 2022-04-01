@@ -31,8 +31,8 @@ class TrainerPokedexRepositoryTest {
     public void 도감추가() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .logId("aaddda")
-                .logPassword("abcd")
+                .loginId("aaddda")
+                .password("abcd")
                 .name("지우")
                 .build();
         trainerRepository.save(trainer);
@@ -54,8 +54,8 @@ class TrainerPokedexRepositoryTest {
     public void 도감삭제() throws Exception {
         //given
         Trainer trainer = Trainer.builder()
-                .logId("abcd")
-                .logPassword("abcd")
+                .loginId("abcd")
+                .password("abcd")
                 .name("지우")
                 .build();
         trainerRepository.save(trainer);
