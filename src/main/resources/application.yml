@@ -7,7 +7,6 @@ spring:
     url: jdbc:mysql://localhost:3306/pokemon?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&rewriteBatchedStatements=true
     username: jwneo
     password: 1111
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,12 +17,12 @@ spring:
         default_batch_fetch_size: 1000
         jdbc:
           batch_size: 50
-
   data:
     web:
       pageable:
         default-page-size: 10
         max-page-size: 2000
+        one-indexed-parameters: true
 
 logging:
   level:
