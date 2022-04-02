@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+</head>
+<body layout:fragment="content">
+<div class="container">
+    <div class="row mt-4 justify-content-between">
+        <div class="col-12">
+            <h2 class="d-inline">교환</h2>
+        </div>
+    </div>
+    <div class="row mt-4 ml-1 justify-content-start">
+        <table class="table table-hover table-striped text-center">
+            <thead>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록시간</th>
+            </thead>
+            <tbody>
+                <tr th:each="trade: ${tradeList}">
+                    <td th:text="${trade.id}"></td>
+                    <td th:text="${trade.title}"></td>
+                    <td th:text="${trade.trainer.name}"></td>
+                    <td th:text="${trade.createdDate}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav style="text-align: center;">
+            <ul class="pagination"
+                th:with="start=${start}, last=(${last})">
+                <li>
+                    <a th:href="@{/trade(page=1)}" aria-label="First">
+                        <span aria-hidden="true">First</span>
+                    </a>
+                </li>
+
+                <li th:class="${tradeList.first} ? 'disabled'">
+                    <a th:href="${tradeList.first} ? '#' :@{/trade(page=${tradeList.number})}" aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+
+                <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == tradeList.number + 1} ? 'active'">
+                    <a th:text="${page}" th:href="@{/trade(page=${page})}"></a>
+                </li>
+
+                <li th:class="${tradeList.last} ? 'disabled'">
+                    <a th:href="${tradeList.last} ? '#' : @{/trade(page=${tradeList.number + 2})}" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/trade(page=${tradeList.totalPages})}" aria-label="Last">
+                        <span aria-hidden="true">Last</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+</body>
+</html>
