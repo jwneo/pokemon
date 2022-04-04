@@ -6,63 +6,66 @@
 <head>
 </head>
 <body layout:fragment="content">
-<div class="container">
-    <div class="row mt-4 justify-content-between">
-        <div class="col-12">
-            <h2 class="d-inline">교환</h2>
+    <div class="container">
+        <div class="row mt-4 justify-content-between">
+            <div class="col-8">
+                <h2 class="d-inline"><a onClick="window.location.reload()" style="cursor: pointer;">교환</a></h2>
+            </div>
+            <div class="col-4">
+                <a class="btn btn-success float-right" href="/tr">새글</a>
+            </div>
+        </div>
+        <div class="row mt-4 ml-1 table-responsive">
+            <table class="table table-hover text-center table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>등록시간</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="trade: ${tradeList}">
+                        <td th:text="${trade.id}"></td>
+                        <td><a th:text="${trade.title}" th:href="|/trade/${trade.id}|"></a></td>
+                        <td th:text="${trade.trainer.name}"></td>
+                        <td th:text="${trade.createdDate}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row justify-content-center">
+            <nav style="text-align: center;">
+                <ul th:with="start=${start}, last=(${last})" class="pagination">
+                    <li class="page-item">
+                        <a th:href="@{/trade(page=1)}" aria-label="First" class="page-link">
+                            <span aria-hidden="true">처음</span>
+                        </a>
+                    </li>
+                    <li th:class="${tradeList.first} ? 'page-item disabled'">
+                        <a th:href="${tradeList.first} ? '#' : @{/trade(page=${tradeList.number})}" aria-label="Previous" class="page-link">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                    <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == tradeList.number+1} ? 'page-item active'">
+                        <a th:text="${page}" th:href="@{/trade(page=${page})}" class="page-link"></a>
+                    </li>
+                    <li th:class="${tradeList.last} ? 'page-item disabled'">
+                        <a th:href="${tradeList.last} ? '#' : @{/trade(page=${tradeList.number+2})}" aria-label="Next" class="page-link">
+                            <span aria-hidden="true">></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/trade(page=${tradeList.totalPages})}" aria-label="Last" class="page-link">
+                            <span aria-hidden="true">끝</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </div>
-    <div class="row mt-4 ml-1">
-        <table class="table table-hover text-center">
-            <thead class="thead-dark">
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>등록시간</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="trade: ${tradeList}">
-                    <td th:text="${trade.id}"></td>
-                    <td th:text="${trade.title}"></td>
-                    <td th:text="${trade.trainer.name}"></td>
-                    <td th:text="${trade.createdDate}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="row justify-content-center">
-        <nav style="text-align: center;">
-            <ul th:with="start=${start}, last=(${last})" class="pagination">
-                <li class="page-item">
-                    <a th:href="@{/trade(page=1)}" aria-label="First" class="page-link">
-                        <span aria-hidden="true">처음</span>
-                    </a>
-                </li>
-                <li th:class="${tradeList.first} ? 'page-item disabled'">
-                    <a th:href="${tradeList.first} ? '#' : @{/trade(page=${tradeList.number})}" aria-label="Previous" class="page-link">
-                        <span aria-hidden="true">&lt;</span>
-                    </a>
-                </li>
-                <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == tradeList.number+1} ? 'page-item active'">
-                    <a th:text="${page}" th:href="@{/trade(page=${page})}" class="page-link"></a>
-                </li>
-                <li th:class="${tradeList.last} ? 'page-item disabled'">
-                    <a th:href="${tradeList.last} ? '#' : @{/trade(page=${tradeList.number+2})}" aria-label="Next" class="page-link">
-                        <span aria-hidden="true">></span>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/trade(page=${tradeList.totalPages})}" aria-label="Last" class="page-link">
-                        <span aria-hidden="true">끝</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-    </div>
-</div>
 </body>
 </html>
