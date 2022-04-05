@@ -5,6 +5,7 @@ import com.jwneo.pokemon.model.Trainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -28,12 +29,13 @@ class TradeRepositoryTest {
 
     @Test
     @Transactional
+    @Rollback(value = false)
     public void 교환등록() throws Exception {
         //given
         Trainer trainer = trainerRepository.findByLoginId("jwneo").get();
         Trade trade = Trade.builder()
-                .writer(trainer)
-                .title("test")
+                .trainer(trainer)
+                .title("tes1111111111111")
                 .content("test입니다")
                 .build();
         tradeRepository.save(trade);
@@ -42,7 +44,7 @@ class TradeRepositoryTest {
         em.flush();
         em.clear();
 
-        List<Trade> findTrade = tradeRepository.findByWriter(trainer);
+        List<Trade> findTrade = tradeRepository.findByTrainer(trainer);
 
         //then
         assertThat(findTrade).isEqualTo(trade);

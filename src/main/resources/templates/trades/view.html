@@ -4,15 +4,38 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 <head>
+    <style type="text/css">
+         a:link { text-decoration: none;}
+         a:visited { color: black; text-decoration: none;}
+    </style>
 </head>
 <body layout:fragment="content">
     <div class="container">
-        <div class="justify-content-center">
-            <div class="row" th:text="${trade.title}"></div>
-            <div class="row" th:text="${trade.content}"></div>
-            <div class="row" th:text="${trade.trainer.name}"></div>
-            <div class="row" th:text="${trade.createdDate}"></div>
+        <div class="row mt-4 justify-content-between">
+            <div class="col-8">
+                <h2 class="d-inline"><a href="/trade">교환</a></h2>
+            </div>
         </div>
+        <div class="row mt-4 justify-content-between">
+            <div class="col-6">
+                <h5 class="d-inline" th:text="${trade.title}"></h5>
+            </div>
+            <div class="col-6">
+                <p class="float-right" th:text="${#temporals.format(trade.createdDate, 'yyyy.MM.dd HH:mm')}"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p th:text="${trade.trainer.name}"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="float-right" th:text="${trade.trainer.pokeList}"></p>
+            </div>
+        </div>
+        <div class="row" th:text="${trade.content}"></div>
+        <div class="row" th:text="${trade.trainer.name}"></div>
     </div>
 </body>
 </html>
