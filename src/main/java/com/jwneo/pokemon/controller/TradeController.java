@@ -3,6 +3,7 @@ package com.jwneo.pokemon.controller;
 import com.jwneo.pokemon.dto.TrainerDto;
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.model.Trade;
+import com.jwneo.pokemon.service.PokedexService;
 import com.jwneo.pokemon.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,16 +24,21 @@ import java.util.Optional;
 public class TradeController {
 
     private final TradeService tradeService;
+    private final PokedexService pokedexService;
 
     @GetMapping("/trade")
     public String list(
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) TrainerDto trainerDto,
             @PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             Model model) {
+
+        model.addAttribute("trainerDto", trainerDto);
+
         Page<Trade> tradeList = tradeService.listAll(pageable);
         int start = (int) Math.floor(tradeList.getNumber() / 10) * 10 + 1;
         int last = start + 9 < tradeList.getTotalPages() ? start + 9 : tradeList.getTotalPages();
 
-        model.addAttribute("pageNumber", pageable.getPageNumber()+1);
+        model.addAttribute("pageNumber", pageable.getPageNumber() + 1);
         model.addAttribute("start", start);
         model.addAttribute("last", last);
         model.addAttribute("tradeList", tradeList);
@@ -49,9 +55,12 @@ public class TradeController {
 
         Optional<Trade> trade = tradeService.findOne(Long.parseLong(tradeId));
 
-        if (!trade.isEmpty()) {
-            model.addAttribute("trade", trade.get());
-        }
+        if (trade.isEmpty()) return "redirect:/trade";
+
+        List<Pokedex> pokedexList = pokedexService.findAll();
+
+        model.addAttribute("pokedexList", pokedexList);
+        model.addAttribute("trade", trade.get());
 
         return "trades/view";
     }

@@ -6,7 +6,7 @@
 <head>
     <style type="text/css">
          a:link { text-decoration: none;}
-         a:visited { color: black; text-decoration: none;}
+         a:visited { text-decoration: none;}
     </style>
 </head>
 <body layout:fragment="content">
@@ -15,14 +15,15 @@
             <div class="col-8">
                 <h2 class="d-inline"><a onClick="window.location.reload()" style="cursor: pointer;">교환</a></h2>
             </div>
-            <div class="col-4">
-                <a class="btn btn-success float-right" href="/tr">새글</a>
+            <div th:if="!${#strings.isEmpty(trainerDto)}" class="col-4">
+                <a class="btn btn-success float-right" href="/trade/write">새글</a>
             </div>
         </div>
         <div class="row mt-4 ml-1 table-responsive">
             <table class="table table-hover text-center table-sm">
                 <thead class="thead-dark">
                     <tr>
+                        <th>지역</th>
                         <th>제목</th>
                         <th>작성자</th>
                         <th>등록시간</th>
@@ -30,6 +31,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="trade: ${tradeList}">
+                        <td th:text="${trade.trainer.address.region}"></td>
                         <td><a th:text="${trade.title}" th:href="|/trade/${trade.id}|"></a></td>
                         <td th:text="${trade.trainer.name}"></td>
                         <td th:with="date = ${#temporals.format(trade.createdDate, 'yyyy-MM-dd')},
