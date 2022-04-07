@@ -6,17 +6,18 @@
 <head>
     <style type="text/css">
          a:link { text-decoration: none;}
-         a:visited { text-decoration: none;}
+         a:visited { color: black; text-decoration: none;}
     </style>
 </head>
 <body layout:fragment="content">
     <div class="container">
         <div class="row mt-4 justify-content-between">
             <div class="col-8">
-                <h2 class="d-inline"><a onClick="window.location.reload()" style="cursor: pointer;">교환</a></h2>
+                <h2 class="d-inline"><a href="/trade">교환</a></h2>
+                <h4 class="d-inline ml-1 count">목록</h4>
             </div>
             <div th:if="!${#strings.isEmpty(trainerDto)}" class="col-4">
-                <a class="btn btn-success float-right" href="/trade/write">새글</a>
+                <button class="btn btn-success float-right" onclick="location.href='/trade/write'">새글</button>
             </div>
         </div>
         <div class="row mt-4 ml-1 table-responsive">
@@ -33,7 +34,7 @@
                     <tr th:each="trade: ${tradeList}">
                         <td th:text="${trade.trainer.address.region}"></td>
                         <td><a th:text="${trade.title}" th:href="|/trade/${trade.id}|"></a></td>
-                        <td th:text="${trade.trainer.name}"></td>
+                        <td th:text="${trade.trainer.loginId}"></td>
                         <td th:with="date = ${#temporals.format(trade.createdDate, 'yyyy-MM-dd')},
                                      time = ${#temporals.format(trade.createdDate, 'HH:mm:ss')}">
                             <div th:if="${date == #strings.toString(#temporals.createToday())}"

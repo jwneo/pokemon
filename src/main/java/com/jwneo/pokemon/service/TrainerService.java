@@ -43,7 +43,7 @@ public class TrainerService {
         }
     }
 
-    public Optional<Trainer> findOne(String trainerId) {
-        return trainerRepository.findByLoginId(trainerId);
+    public Optional<Trainer> findOne(String loginId) {
+        return trainerRepository.findByLoginId(loginId);
     }
 }

@@ -17,6 +17,11 @@ public class TradeService {
 
     private final TradeRepository tradeRepository;
 
+    @Transactional
+    public void writeTrade(Trade trade) {
+        tradeRepository.save(trade);
+    }
+
     public Page<Trade> listAll(Pageable pageable) {
         return tradeRepository.findAll(pageable);
     }
