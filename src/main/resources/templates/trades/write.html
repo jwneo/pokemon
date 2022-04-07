@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <style type="text/css">
+         a:link { text-decoration: none;}
+         a:visited { color: black; text-decoration: none;}
+         textarea {
+            height: 50px;
+            border: none;
+            resize: none;
+          }
+    </style>
+</head>
+<body layout:fragment="content">
+    <div class="container">
+        <div class="row mt-4 justify-content-between">
+            <div class="col-8">
+                <h2 class="d-inline"><a href="/trade">교환</a></h2>
+                <h4 class="d-inline ml-1 count">새글</h4>
+            </div>
+        </div>
+        <div style="height:100%" class="mt-4">
+            <form role="form" action="/trade/write" th:object="${tradeForm}" method="post">
+                <div class="row mt-4 ml-1 mr-1 justify-content-between">
+                    <div class="col-9">
+                        <input th:field="*{title}" type="text" class="form-control" placeholder="제목">
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-primary float-right">저장</button>
+                    </div>
+                </div>
+                <div class="row mt-4 ml-1 mr-1 justify-content-between">
+                    <div class="col-12">
+                        <textarea th:field="*{content}" type="text" class="form-control" placeholder="내용"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
