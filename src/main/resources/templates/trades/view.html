@@ -5,9 +5,13 @@
       layout:decorate="~{fragments/layout}">
 <head>
     <style type="text/css">
-         a:link { text-decoration: none;}
-         a:visited { color: black; text-decoration: none;}
-
+         a:link {
+            text-decoration: none;
+         }
+         a:visited {
+            color: black;
+            text-decoration: none;
+         }
          .scrollable-menu {
             height: auto;
             max-height: 300px;
@@ -34,17 +38,16 @@
         <div class="row pb-3 border-bottom">
             <div class="col-6">
                 <div class="dropdown">
-                    <a th:text="${trade.trainer.loginId}"
+                    <a th:text="|${trade.trainer.loginId} 의 도감|"
                        class="dropdown-toggle pl-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     </a>
-                    <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-                        <p>보유 포켓몬</p>
-                        <hr class="dropdown-divider">
-                        <th:block th:each="pokedex : ${pokedexList}">
-                            <p th:if="${#strings.contains(trade.trainer.pokeList, '/'+pokedex.name+'/')}"
-                               th:text="|${#numbers.formatInteger(pokedex.code,3)}) ${pokedex.name}|">
+                    <div class="pl-2 pr-2 dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+                        <div th:each="pokedex : ${pokedexList}">
+                            <input th:checked="${#strings.contains(trade.trainer.pokeList, '/'+pokedex.name+'/')}"
+                                   type="checkbox" onClick="return false;">
+                            <p class="d-inline" th:text="|${#numbers.formatInteger(pokedex.code,3)}) ${pokedex.name}|">
                             </p>
-                        </th:block>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,9 +56,9 @@
                 <a class="float-right" href="">수정</a>
             </div>
         </div>
-        <div class="pt-4 pb-3 row border-bottom">
+        <div class="pt-4 pb-2 row border-bottom">
             <div class="col-12">
-                <p th:text="${trade.content}"></p>
+                <pre th:text="${trade.content}" disabled></pre>
             </div>
         </div>
     </div>

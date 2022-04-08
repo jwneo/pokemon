@@ -33,6 +33,8 @@ public class Trade extends BaseTime {
 
     private String content;
 
+    private String comment = "";
+
     @Builder
     public Trade(Trainer trainer, String title, String content) {
         this.trainer = trainer;
