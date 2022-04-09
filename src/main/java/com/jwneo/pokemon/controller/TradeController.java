@@ -2,8 +2,6 @@ package com.jwneo.pokemon.controller;
 
 import com.jwneo.pokemon.dto.TradeForm;
 import com.jwneo.pokemon.dto.TrainerDto;
-import com.jwneo.pokemon.dto.TrainerForm;
-import com.jwneo.pokemon.model.Address;
 import com.jwneo.pokemon.model.Pokedex;
 import com.jwneo.pokemon.model.Trade;
 import com.jwneo.pokemon.model.Trainer;
@@ -19,10 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -75,6 +70,28 @@ public class TradeController {
         return "trades/view";
     }
 
+    @PostMapping("/trade/{id}")
+    public String writeComment(
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) TrainerDto trainerDto,
+            @PathVariable("id") String tradeId,
+            @RequestParam(value = "comment") String comment,
+            Model model) {
+
+        if (trainerDto == null) {
+            return "redirect:/trade/" + tradeId;
+        }
+
+        model.addAttribute("trainerDto", trainerDto);
+
+        Optional<Trade> trade = tradeService.findOne(Long.parseLong(tradeId));
+
+        List<Pokedex> pokedexList = pokedexService.findAll();
+
+
+
+        return "redirect:/trade/" + tradeId;
+    }
+
     @GetMapping("/trade/write")
     public String tradeForm(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) TrainerDto trainerDto,
@@ -91,7 +108,7 @@ public class TradeController {
     }
 
     @PostMapping("/trade/write")
-    public String write(
+    public String writeTrade(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) TrainerDto trainerDto,
             @Valid TradeForm tradeForm,
             BindingResult bindingResult) {

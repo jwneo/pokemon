@@ -29,4 +29,13 @@ public class TradeService {
     public Optional<Trade> findOne(Long tradeId) {
         return tradeRepository.findById(tradeId);
     }
+
+    @Transactional
+    public void updateComment(Long tradeId, String comment) {
+        Optional<Trade> findTrade = tradeRepository.findById(tradeId);
+
+        if (!findTrade.isEmpty()) {
+            findTrade.get().updateComment(comment);
+        }
+    }
 }

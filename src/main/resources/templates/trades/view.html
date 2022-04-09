@@ -4,6 +4,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 <head>
+    <script>
+            function dataSend() {
+                var data = {"comment": $("textarea").val()};
+                console.dir(data);
+                $.ajax({
+                    url: "#",
+                    data: data,
+                    type: "POST",
+                })
+            }
+        </script>
     <style type="text/css">
          a:link {
             text-decoration: none;
@@ -58,7 +69,15 @@
         </div>
         <div class="pt-4 pb-2 row border-bottom">
             <div class="col-12">
-                <pre th:text="${trade.content}" disabled></pre>
+                <pre th:text="${trade.content}"></pre>
+            </div>
+        </div>
+        <div style="height: 10px" class="row mt-4 justify-content-between">
+            <div class="col-9">
+                <textarea type="text" class="form-control h-100" placeholder="댓글을 입력해주세요"></textarea>
+            </div>
+            <div class="col-3">
+                <button type="button" class="btn btn-primary float-right ml-2" onclick="dataSend()">저장</button>
             </div>
         </div>
     </div>
